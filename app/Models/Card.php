@@ -11,6 +11,8 @@ class Card extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'priority', 'user_id'];
+
     public function task(): HasMany
     {
         return $this->hasMany(Task::class);
