@@ -21,7 +21,7 @@ class CardController extends Controller
      */
     public function store(Request $request)
     {
-        $event = Card::create([
+        $card = Card::create([
             ...$request->validate([
                 'name' => 'required|string|max:255',
                 'priority' => 'required|string|max:25'
@@ -29,7 +29,7 @@ class CardController extends Controller
             'user_id' => 2
         ]);
 
-        return $event;
+        return $card;
     }
 
     /**
@@ -43,16 +43,24 @@ class CardController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Card $card)
     {
-        //
+        $card->update($request->validate([
+            'name' => 'sometimes|string|max:255',
+            'priority' => 'sometimes|string|max:25'
+        ]));
+
+        return $card;
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Card $card)
     {
-        //
+        $card->delete();
+
+        return response(status: 204);
     }
 }
