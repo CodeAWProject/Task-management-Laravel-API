@@ -25,4 +25,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::apiResource('cards', CardController::class);
 Route::apiResource('cards.tasks', TaskController::class)
-    ->scoped(['task' => 'card']);
+    ->scoped();

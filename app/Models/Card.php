@@ -13,7 +13,7 @@ class Card extends Model
 
     protected $fillable = ['name', 'priority', 'user_id'];
 
-    public function task(): HasMany
+    public function tasks(): HasMany
     {
         return $this->hasMany(Task::class);
     }
