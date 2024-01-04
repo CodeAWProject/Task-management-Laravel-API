@@ -14,7 +14,35 @@ class CardController extends Controller
      */
     public function index()
     {
-        return CardResource::collection(Card::with('user')->paginate());
+
+        $query = Card::query();
+        $relations = ['user', 'tasks', 'tasks.user'];
+
+        foreach($relations as $relation) {
+            $query->when(
+                $this->shouldIncludeRelation($relation),
+                fn($q) => $q->with($relation)
+            );
+        }
+
+
+        return CardResource::collection(
+            $query->latest()->paginate()
+        );
+    }
+
+
+    protected function shouldIncludeRelation(string $relation): bool
+    {
+        $include = request()->query('include');
+
+        if (!$include) {
+            return false;
+        }
+
+        $relations = array_map('trim', explode(',', $include));
+
+        return in_array($relation, $relations);
     }
 
     /**
