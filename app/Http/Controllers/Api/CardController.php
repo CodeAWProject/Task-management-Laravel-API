@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CardResource;
 use App\Models\Card;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class CardController extends Controller
      */
     public function index()
     {
-        return \App\Models\Card::all();
+        return CardResource::collection(Card::all());
     }
 
     /**
@@ -29,7 +30,7 @@ class CardController extends Controller
             'user_id' => 2
         ]);
 
-        return $card;
+        return new CardResource($card);
     }
 
     /**
@@ -37,7 +38,7 @@ class CardController extends Controller
      */
     public function show(Card $card)
     {
-        return $card;
+        return new CardResource($card);
     }
 
     /**
@@ -50,7 +51,7 @@ class CardController extends Controller
             'priority' => 'sometimes|string|max:25'
         ]));
 
-        return $card;
+        return new CardResource($card);
 
     }
 
