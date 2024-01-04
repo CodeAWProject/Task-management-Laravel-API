@@ -17,7 +17,11 @@ class CardResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'priority' => $this->priority
+            'priority' => $this->priority,
+            'user' => new UserResource($this->whenLoaded('user')),
+            'tasks' => TaskResource::collection(
+                $this->whenLoaded('task')
+            )
         ];
     }
 }

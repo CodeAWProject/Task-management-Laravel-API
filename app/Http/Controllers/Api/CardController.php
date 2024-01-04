@@ -14,7 +14,7 @@ class CardController extends Controller
      */
     public function index()
     {
-        return CardResource::collection(Card::all());
+        return CardResource::collection(Card::with('user')->get());
     }
 
     /**
@@ -38,6 +38,8 @@ class CardController extends Controller
      */
     public function show(Card $card)
     {
+
+        $card->load('user', 'task');
         return new CardResource($card);
     }
 
